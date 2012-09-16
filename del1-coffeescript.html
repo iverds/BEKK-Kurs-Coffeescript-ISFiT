@@ -1,13 +1,106 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Introduksjon til coffeescript</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="https://github.com/downloads/gnab/remark/remark-0.3.5.min.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.js" type="text/javascript"></script>
-    <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.css" type="text/css" rel="stylesheet">
-  </head>
-  <body>
-  </body>
+    <head>
+        <title>Introduksjon til coffeescript</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script src="https://github.com/downloads/gnab/remark/remark-0.3.5.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.js" type="text/javascript"></script>
+        <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+
+    <style>
+    .small { font-size: 15px; }
+    </style>
+
+        <textarea id="source">
+
+.front-page
+
+# CoffeeScript!
+
+## Del 1: Introduksjon
+
+Kurs for ISFiT, september 2012
+
+v/ Iver Dihle Skjervum & Håkon Erichsen
+
+---
+
+# Hva er CoffeeScript?
+
+CoffeeScript er et dynamisk språk som kompilerer til javascript, men ligner på Ruby eller Python.
+
+Brukes gjerne hvis man...
+
+* ... liker Ruby/Python syntaks
+* ... vil unngå mange javascript-feller
+* ... vil utvikle raskt
+* ... er litt hipster *
+
+.small[\* Hvis man vil være enda litt mer hipster: Skriv CoffeeScript serverside med node.js!]
+
+---
+
+# Hvordan ser CS ut?
+
+En liten smakebit...
+
+Javascript:
+
+    var addTwoNumbers = function (a, b) {
+        return a + b;
+    }
+
+    addTwoNumbers(1, 2);
+
+CS:
+
+    addTwoNumbers = (a, b) ->
+        a + b
+
+    addTwoNumbers 1, 2
+
+---
+
+# Hvordan starter vi med CS?
+
+Legg dette inn i mellom `<head>` og `</head>` HTML-filen din:
+
+    <script type="text/coffeescript">
+    # Her kan du skrive coffeescript
+    </script>
+    <script src="http://coffeescript.org/extras/coffee-script.js">
+
+Voila, du skriver CS!
+
+---
+
+# Hvordan starter vi med CS?
+
+Metoden på forrige slide kan dog ta litt lang tid, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
+
+1. Lag en fil med CS som du kaller f.eks fil.coffee
+1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
+1. Installer CS-kompilatoren med `npm install coffee`
+1. Skriv `coffee fil.coffee fil.js` for å konvertere `fil.coffee` til JS
+1. Legg inn `fil.js` som vanlig JS i HTML-filen din.
+
+Huskeregel:
+
+* I produksjon: Bruk alltid `coffee` kommandoen!
+* Ellers: Bruk det som er mest praktisk for deg.
+
+---
+
+
+
+
+
+        </textarea>
+
+        <div id="slideshow"></div>
+
+    </body>
 </html>

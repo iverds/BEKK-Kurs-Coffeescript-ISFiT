@@ -36,7 +36,7 @@ Brukes gjerne hvis man...
 
 * ... liker Ruby/Python syntaks
 * ... vil unngå mange javascript-feller
-* ... vil utvikle raskt
+* ... vil skrive mindre kode
 * ... er litt hipster *
 
 .small[\* Hvis man vil være enda litt mer hipster: Skriv CoffeeScript serverside med node.js!]
@@ -79,9 +79,9 @@ Voila, du skriver CS!
 
 # Hvordan starter vi med CS?
 
-Metoden på forrige slide kan dog ta litt lang tid, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
+Metoden på forrige slide tar litt tid å laste per side, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
 
-1. Lag en fil med CS som du kaller f.eks fil.coffee
+1. Lag en fil med CS i som du kaller f.eks fil.coffee
 1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
 1. Installer CS-kompilatoren med `npm install coffee`
 1. Skriv `coffee fil.coffee fil.js` for å konvertere `fil.coffee` til JS
@@ -94,7 +94,92 @@ Huskeregel:
 
 ---
 
+# Basic syntaks
 
+Variabler
+
+    a = 6
+    tekst = "hei"
+    liste = [1, 2, 3, 4]
+    objekt = {navn: "Dag-Inge", organisasjon: "ISFiT", klasse: "5."}
+
+If-setninger
+
+    if a is 6
+        # Gjør noe
+    else if b isnt 2 or a > 7
+        # Gjør noe annet
+    else
+        # Gjør noe heeelt annet
+
+Disse to betyr det samme
+
+    unless b is 2
+        # Gjør noe
+
+    if b isnt 2
+        # Gjør noe
+
+
+---
+
+# Basic syntaks
+
+Funksjon uten argument
+
+    siHei = ->
+        alert "hei!"
+
+    siHei() # Viktig å ha med parantesene hvis man ikke har noen argumenter
+
+... med argumenter
+
+    pluss = (x, y) ->
+        x + y
+
+    pluss 1, 2 # Gir ut 3
+    pluss(1, 2) # Gir også ut 3
+
+... med default-parameter:
+
+    siHei = (navn = "ISFiT") ->
+        alert "Hei, #{navn}!"
+
+    siHei() # Vil gi ut 'Hei, ISFiT!'    
+    siHei('Iver') # Vil gi ut 'Hei, Iver!'    
+
+---
+
+# Oppgave
+
+Lag en funksjon som tar inn tre tall, og returnerer det største av dem.
+Bruk alert() eller console.log() til å teste funksjonen.
+
+Cheat:
+    
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script type="text/coffeescript">
+        # Her kan du skrive coffeescript
+        </script>
+        <script src="http://coffeescript.org/extras/coffee-script.js">
+    </head>
+
+    <body>
+    </body>
+    </html>
+
+---
+
+# Løkker
+
+    sum = 0
+    for tall in liste
+        sum += tall
+
+    for tall, i in liste
+        console.log 
 
 
 

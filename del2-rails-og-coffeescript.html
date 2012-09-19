@@ -11,33 +11,155 @@
   <body>
     <textarea id="source">
 
-class: center, middle
+.front-page
 
-
-# Title
+# CoffeeScript, Ajax og Rails
 
 ---
 
 # Agenda
 
-1. Forms and remote true
+1. Ajax
+1. Remote true
 2. Callbacks
 3. Coffee
 
 ---
 
-# Forms and remote true
+# AJAX
+
+- AJAX (Asynchronous JavaScript and XML) blir brukt for å kommunisere med en server uten at siden oppdateres
+- Får en opplevelse av at siden responderer kjappere
+- Vi sender en request til serveren for å hente noe data
+- Når dataen kommer tilbake gjør vi noe kult med den
+
+####Eksemple i CoffeeScript:
+
+    $.ajax 'users/new',
+      type: 'POST'
+      dataType: 'json'
+      data: {first_name: "Iver", last_name: "Skjervum" }
+      fail: (jqXHR, textStatus, errorThrown) ->
+        $('body').append "Fikk en feil: #{textStatus}"
+      done: (data, textStatus, jqXHR) ->
+        $('body').append "Yeey, suksess! data: {data}"
+      always: ->
+        $('body').append "Some AJAX happened"    
+---
+
+#Rails og remote: true
+
+- Gitt at vi skal lage et skjema (form) som brukeren skal sende ved hjelp av ajax
+  - Lage form og input - elementer i HTML
+  - Finne ut når skjemaet blir sendt (submit), og avbryte så vi kan gjøre det med ajax
+  - Hente ut riktige data
+  - Laga en ajax-request som forrige slide, sende dataene til serveren og krysse fingrene for at alt går bra
+- Rails liker magi, og har gjort det "enklere" for oss å gjøre standardoperasjoner med ajax
+- Vi kan legge til `remote: true` til ruby-funksjoner som sender en request til serveren
+- Nå skjer alt automagisk!
+
+---
+# Remote: true
+
+- De mest vanlige er:
+  - form_for
+  - link_to
+  - button_to
+
+####Eksempel: 
+
+    simple_form_for User.new, remote: true do |f|
+      f.input :first_name
+      f.input :last_name
+    end
+
+    link_to "First user", User.first, remote: true
+---
+
+# Oppgave
+
+- Åpne home-controlleren 
+- Lag en link "Get funny things" og set remote: true på linken
+- Send linken til 'home/index'
+- Bruk firebug til å følge nett-trafikken og se hva som skjer!
+
+---
+
+# Så hva skjer i kontrolleren?
+
+- Hva fikk dere som respons i forrige oppgave?
+- Som default responderer en action i en controller med html og ved å kalle action.html.erb
+- For oss kaller index-action index.html.erb
+      
+      .ruby
+      class HomeController < ApplicationController
+        def index
+          #render index.html.erb
+        end
+      end
+//>
+- Når vi sender requests til serveren ønsker vi ikke alltid å få tilbake html
+- Derfor må vi se litt på JSON!
+
+---
+
+# JSON
+
+## JavaScript Object Notation
+- En måte å representere javascript-objecter på
+- Enkel måte å sende data over nettet på
+- Vi så den ble brukt i ajax-eksemplet:
+
+      {
+        first_name: "Iver",
+        last_name: "Skjervum
+      }
+
+- Ligner veldig på ruby sin hash-syntax (Eller ruby 1.9 ligner på javascript sin...)
+
+---
+
+# JSON
+
+
+- Et tall (integer eller floating point)
+- En streng (i doble fnutter)
+- En Boolean (true eller false)
+- Et array (i firkant-paranteser)
+- Et objekt (i krøll-paranteser)
+- null
+
+#### En liste representeres som:
+    ["Hello", World"]
+
+#### En liste kan også inneholde objekter
+    [
+      {first_name: "Iver", last_name: "Skjervum"},
+      {first_name: "Håkon", last_name: "Erichsen"}
+    ]
+
+---
+
+# Respons fra serveren med json
 
 ---
 
 # Callbacks
 
+1. `ajax:beforeSend` – skjer før AJAX-kallet har blit sendt
+2. `ajax:success` – skjer etter AJAX-kallet har blitt sendt hvis responsen er en suksess
+3. `ajax:complete` – skjer etter AJAX-kallet har blitt sendt uansett respons
+4. `ajax:error` – skjer etter AJAX-kallet har blitt sendt hvis responsen ikke er en suksess 
+
 ---
 
-# Coffee
+# Oppgave
 
-
-
+- Fortsett på forrige oppgave, og endre index-action i Home kontrollerern til å respondere på json
+- Denne skal sende tilbake en liste med "Funny things"
+- Hent `ajax:success` - callbacket, iterer over listen og legg til ul-elementer og plasser de i en liste
+- Ekstra:
+- Hent `ajax:beforeSend` - callbacket og legg til et tilfeldig parameter "extra-funny" som gjør noe artig med dataene som returneres i kontrolleren
 
 
 

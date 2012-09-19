@@ -194,11 +194,15 @@
 
 - Vi bruker jQuery in `on` funksjon til å "lytte" på events
 
+#### "ajax:success"
+
       $("#some_id").on "ajax:success", (event, data, status, xhr)->
-        #Do something on the success with the data here
-        
+        for item in data alert(item)
+
+#### "ajax:complete"
+
       $("#some_id").on "ajax:complete", ()->
-        alert "It completed at least"
+        alert "It completed!"
 
         
 ---
@@ -224,18 +228,55 @@
 
         def index
           @users = User.all
-          respond_with(@users)
+          respond_with(@articles)
         end
 
         def show
           @users = User.find(params[:id])
-          respond_with(@user)
+          respond_with(@article)
         end
-      end
-- Gjør om objektet user "magisk" til den typen det ønskes respond til
+        end
+
+- Gjør om objektet user magisk til den typen det ønskes respond til
 - Artikkel for mer informasjon: http://blog.plataformatec.com.br/2009/08/embracing-rest-with-mind-body-and-soul/
 
 ---
+# Respond_with, create og update
+#### En vanlig create-metode:
+    def create
+      @article = Article.new(params[:article])
+      respond_to |format| do
+        if @article.save
+          format.html { redirect_to @article, notice: "Aricle saved!"}
+        else
+          format.html { render :new }
+        end
+      end
+    end
+
+    #### med respond_with kan vi skrive:
+
+    def create
+      @article = Article.new(params[:article])
+      flash[:notice] = "Article saved!" if @article.save
+      respond_with(@article)
+    end
+
+---
+
+# Oppgave
+
+- I løsningen finnes det en artikkel-modell, kontroller og view
+- I index viewet skal man kunne lage artikler ved hjelp av et form
+- Formet skal kunne sendes inn med remote: true
+
+
+#Jbuilder
+- Av og til trenger vi komplekse json-strukturer å jobbe med
+- En artikkel kan ha mange kommentarer og likes
+- Vi ønsker å bruke hjelpemetoder eller routes-hjelpere til å returnere noe
+- Jbuilder er et alternativ for å bygge opp json-strukturer
+- LINK HER
 
 
     </textarea>

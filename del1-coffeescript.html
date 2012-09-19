@@ -64,33 +64,12 @@ CS:
 
 ---
 
-# Hvordan starter vi med CS?
+.middle.center
 
-Legg dette inn i mellom `<head>` og `</head>` HTML-filen din:
+# La oss prøve litt!
 
-    <script type="text/coffeescript">
-    # Her kan du skrive coffeescript
-    </script>
-    <script src="http://coffeescript.org/extras/coffee-script.js">
+[coffeescript.org](http://coffeescript.org/), trykk på 'try coffeescript'.
 
-Voila, du skriver CS!
-
----
-
-# Hvordan starter vi med CS?
-
-Metoden på forrige slide tar litt tid å laste per side, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
-
-1. Lag en fil med CS i som du kaller f.eks fil.coffee
-1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
-1. Installer CS-kompilatoren med `npm install coffee`
-1. Skriv `coffee fil.coffee fil.js` for å konvertere `fil.coffee` til JS
-1. Legg inn `fil.js` som vanlig JS i HTML-filen din.
-
-Huskeregel:
-
-* I produksjon: Bruk alltid `coffee` kommandoen!
-* Ellers: Bruk det som er mest praktisk for deg.
 
 ---
 
@@ -120,6 +99,20 @@ Disse to betyr det samme
     if b isnt 2
         # Gjør noe
 
+---
+
+# Basic syntaks
+
+If-kortform
+
+    .coffee
+    if ready() then attack() else wait()
+
+Vi har også postfix-notasjon, som i Ruby:
+
+    .coffee
+    alert "Great! :)" if person.organisasjon is "ISFiT"
+
 
 ---
 
@@ -146,14 +139,251 @@ Funksjon uten argument
         alert "Hei, #{navn}!"
 
     siHei() # Vil gi ut 'Hei, ISFiT!'    
-    siHei('Iver') # Vil gi ut 'Hei, Iver!'    
+    siHei('Iver') # Vil gi ut 'Hei, Iver!'  
+
+---
+
+# Basic syntaks
+
+Funksjon som kan ta enn arbitrær mengde argumenter
+
+    test = (a, b...) ->
+        # a er en vanlig variabel
+        # b blir en liste over alle de overskytende argumentene etter a 
+
+    test()        # Her er a = undefined, b = []  
+    test(1, 2, 3) # Her er a = 1, b = [2, 3] 
+
+Du kan også bruke denne notasjonen til å kjøre en funksjon med argumenter fra en liste:
+
+    tall = [1, 2, 3, 4]
+
+    # Disse to gjør det samme:
+    Math.max(1, 2, 3, 4)
+    Math.max(tall...)
 
 ---
 
 # Oppgave
 
-Lag en funksjon som tar inn tre tall, og returnerer det største av dem.
-Bruk alert() eller console.log() til å teste funksjonen.
+Lag en funksjon `max` som tar inn tre tall, og returnerer det største av dem. Hvis noen er like store er det samme hva den returnerer.
+Bruk `alert()` eller `console.log()` til å teste funksjonen.
+
+Hvis du er ferdig: lag en tilsvarende funksjon som kan ta inn en hvilken som helst mengde tall.
+
+NB: Ikke lov å bruke `Math.max`!
+
+---
+
+# Fasit
+
+Mange måter å løse, dette er en simpel en:
+
+    max = (a, b, c) ->
+
+        if a >= b and a >= c
+            a
+        else if b >= a and b >= c
+            b
+        else
+            c
+
+Mer fancy versjoner:
+
+    max = (a, b, c) ->
+        [a, b, c].sort()[2] 
+
+    max = (tall...) ->
+        tall.sort()[tall.length - 1] 
+
+
+Teste funksjonen:
+
+    console.log max(1, 2, 3)
+    console.log max(3, 1, 2)
+    console.log max(3, 2, 1)
+
+---
+
+# Førsteklasses funksjoner
+
+I JavaScript kan man sende rundt funksjoner.
+
+Altså kan en funksjon knyttes til en variabel, være input til en funksjon, returneres fra en funksjon, osv.
+
+    .coffee
+    close = (stuff) ->
+      "closing #{stuff}"
+
+    test = close
+
+    alert test("db")
+
+---
+
+# Anonyme funksjoner
+
+Det som egentlig har skjedd så langt er at vi har knyttet en variabel til en *anonym funksjon*.
+
+Her knytter vi f.eks. variabelen `sum` til en funksjon som adderer to input-parametre.
+
+    .coffee
+    sum = (a,b) -> a + b
+
+Selve funksjonen er altså kun:
+
+    .coffee
+    (a,b) -> a + b
+
+---
+
+# Deklarere objekter
+
+Some å lage en hash i Ruby:
+
+    .coffee
+    father = {
+      name: 'John',
+      daughter: {
+        name: 'Jill'
+      },
+      son: {
+        name: 'Jack'
+      }
+    }
+
+    alert father.son.name
+
+---
+
+# Deklarere objekter
+
+La oss fjerne støyen:
+
+    .coffee
+    father =
+      name: 'John'
+      daughter:
+        name: 'Jill'
+      son:
+        name: 'Jack'
+
+    alert father.son.name
+
+---
+
+# Iterere
+
+Over arrays og ranges:
+
+    .coffee
+    nums = [1..10]
+
+    for number in nums
+      doStuffWith number
+
+Med sjekk:
+
+    .coffee
+    nums = [1..10]
+
+    for number in nums when number > 6
+      doStuffWith number
+
+---
+
+# Iterere over objekter
+
+(Legg merke til `of`, istedenfor `in`.)
+
+    .coffee
+    me = { name: "Kim Joar", company: "BEKK" }
+
+    for key, value of me
+      alert "#{key} = #{value}"
+
+Også her kan vi gjøre en sjekk:
+
+    .coffee
+    me =
+      name: "Kim Joar"
+      company: "BEKK"
+      statement: -> "hello world!"
+
+    for key, value of me when typeof value is 'function'
+      alert value()
+
+---
+
+# Sjekk at ting er tilstede eller satt
+
+For å sjekke at et element er tilstede, kan man bruke `in`:
+
+    .coffee
+    frukter = ['eple', 'pære', 'banan']
+    alert 'eple' in frukter
+
+For å sjekke at en nøkkel er tilstede, kan man bruke `of`:
+
+    .coffee
+    me =
+      name: "Kim Joar"
+      company: "BEKK"
+
+    alert 'name' of me
+    alert 'statement' of me
+
+---
+
+# List Comprehensions
+
+    .coffee
+    doubles = (n * 2 for n in [1..5])
+    alert doubles
+
+Vi kan legge til et filter:
+
+    .coffee
+    large = (n for n in [1..5] when n > 2)
+    alert large
+
+Det sentrale med list comprehensions er at alle loop-er i CoffeeScript
+returnerer en verdi, som er en array bestående av resultatet for hver
+gjennomkjøring.
+
+
+---
+
+# Hvordan starter vi med CS på en nettside?
+
+Legg dette inn i mellom `<head>` og `</head>` HTML-filen din:
+
+    <script type="text/coffeescript">
+    # Her kan du skrive coffeescript
+    </script>
+    <script src="http://coffeescript.org/extras/coffee-script.js">
+
+Voila, du skriver CS!
+
+---
+
+# Hvordan starter vi med CS?
+
+Metoden på forrige slide tar litt tid å laste per side, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
+
+1. Lag en fil med CS i som du kaller f.eks fil.coffee
+1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
+1. Installer CS-kompilatoren med `npm install -g coffee-script`
+1. Skriv `coffee -c fil.coffee` for å konvertere `fil.coffee` til JS
+1. Legg inn `fil.js` som vanlig JS i HTML-filen din.
+
+Huskeregel:
+
+* I produksjon: Bruk alltid `coffee` kommandoen!
+* Ellers: Bruk det som er mest praktisk for deg.
+* [Stasis](http://stasis.me/) er en veldig grei måte å kompilere CS, SASS og mye annet. 
+---
+
 
 Cheat:
     
@@ -163,29 +393,17 @@ Cheat:
         <script type="text/coffeescript">
         # Her kan du skrive coffeescript
         </script>
-        <script src="http://coffeescript.org/extras/coffee-script.js">
+        <script src="http://coffeescript.org/extras/coffee-script.js"></script>
+        <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     </head>
 
     <body>
     </body>
     </html>
 
----
-
-# Løkker
-
-    sum = 0
-    for tall in liste
-        sum += tall
-
-    for tall, i in liste
-        console.log 
-
-
-
         </textarea>
 
-        <div id="slideshow"></div>
+        <div id="slideshow" class="white"></div>
 
     </body>
 </html>

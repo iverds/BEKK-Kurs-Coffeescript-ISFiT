@@ -9,5 +9,76 @@
     <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.css" type="text/css" rel="stylesheet">
   </head>
   <body>
+    <textarea id="source">
+   
+.front-page
+
+# CoffeeScript!
+
+## Del 3: Lag en kalender med rails og CoffeeScript
+
+Kurs for ISFiT, september 2012
+
+v/ Iver Dihle Skjervum & Håkon Erichsen
+
+---
+
+# Oppgave 0:
+
+- Last ned base-koden fra git://github.com/iverds/event.git
+- `git clone git://github.com/iverds/event.git`
+- `cd event` og `bundle`
+
+---
+
+# Rask gjennomgang av kode
+
+- Applikasjonen fungerer som den er, men siden laster på nytt hver gang noe trykkes
+- Modellen er en event som består av en datetime og litt informasjon
+- Koden som følger med bruker en tabell til å vise datoer i en måned
+
+---
+
+# Oppgave 1:
+
+- Next og previous month-lenkene skal ikke laste siden på nytt
+- Sett lenkene til å bruke ajax, og bytt ut innholdet i tabellen med noe som blir returnert fra serveren
+- Ekstra:
+- jQuery UI har slide-in, slide-out effekter. Se om du kan få til en slik effekt når en ny måned kommer
+
+---
+
+# Oppgave 2:
+
+- En ny event åpner opp en helt ny side for å lage en event
+- Twitter bootstrap kommer med en modal (en input-boks som popper opp)
+- http://twitter.github.com/bootstrap/javascript.html#modals
+- Legg formet inn i modal-boksen slik at det kommer opp på samme nettsiden
+- Når eventen blir opprettet skal brukeren få en notification, og modal-boksen fjernes
+- Ekstra:
+- Hvis det er en feil i eventen, skal ikke modalen fjernes, men en feilmelding komme opp
+
+---
+# Oppgave 3:
+
+- Når vi klikker på en dato så åpnes det en y side der eventene for den datoen vises
+- Vi ønsker at dette vises under kalenderen uten at siden lastes på nytt
+- Hent alle eventene på en dato vha. Ajax
+- Iterer over eventene, og legg de til i en liten liste under tabellen
+
+---
+
+# Oppgave 4:
+
+## Integrer eventene på internal
+- Lag en event-branch på internal.isfit.org
+- Kopier kode og det du trenger til internal
+- Legg til mulighet for end-date
+- Legg til mulighet for at en event kan ha mange attending, maybe og not attending
+- Man skal selvfølgelig kunne velge attending / not attending vha. ajax og coffeescript
+
+
+ </textarea>
+    <div id="slideshow"></div>
   </body>
 </html>

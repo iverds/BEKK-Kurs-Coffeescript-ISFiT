@@ -3,7 +3,7 @@
   <head>
     <title>Introduksjon til coffeescript</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="https://github.com/downloads/gnab/remark/remark-0.3.5.min.js" type="text/javascript"></script>
+    <script src="https://github.com/downloads/gnab/remark/remark-0.4.1.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.js" type="text/javascript"></script>
     <link href="https://github.com/downloads/kjbekkelund/remark-bekk/bekk-0.0.5.css" type="text/css" rel="stylesheet">
@@ -11,7 +11,7 @@
   <body>
     <textarea id="source">
 
-.front-page
+class: center, middle
 
 # CoffeeScript!
 
@@ -54,9 +54,10 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
         $('body').append "Yeey, suksess! data: {data}"
       always: ->
         $('body').append "Some AJAX happened"    
+        
 ---
 
-#Rails og remote: true
+#Rails og remote true
 
 - Gitt at vi skal lage et skjema (form) som brukeren skal sende ved hjelp av ajax
   - Lage form og input - elementer i HTML
@@ -68,6 +69,7 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
 - Vi kan inspisere kildekoden og finne frem til jquery_ujs.js, det er her magien ligger
 
 ---
+
 # Remote: true
 
 - De mest vanlige er:
@@ -83,6 +85,7 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
     end
 
     link_to "First article", Article.first, remote: true
+    
 ---
 
 # Oppgave
@@ -150,6 +153,7 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
     ]
 
 ---
+
 # Og Coffeescript
 
 #### En liste med objekter:
@@ -249,6 +253,7 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
 - Artikkel for mer informasjon: http://blog.plataformatec.com.br/2009/08/embracing-rest-with-mind-body-and-soul/
 
 ---
+
 # Respond_with, create og update
 #### En vanlig create-metode:
     def create
@@ -273,7 +278,6 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
 ---
 
 # Oppgave
->
 
 - I løsningen finnes det en artikkel-modell, kontroller og view
 - I index viewet skal man kunne lage artikler ved hjelp av et form
@@ -287,12 +291,14 @@ v/ Iver Dihle Skjervum & Håkon Erichsen
 ---
 
 #Jbuilder
+
 - Av og til trenger vi komplekse json-strukturer å jobbe med
 - En artikkel kan ha mange kommentarer og likes
 - Vi ønsker å bruke hjelpemetoder eller routes-hjelpere til å returnere noe
 - Jbuilder er et alternativ for å bygge opp json-strukturer
 - https://github.com/rails/jbuilder
 
+---
 
     </textarea>
     <div id="slideshow" class="white"></div>

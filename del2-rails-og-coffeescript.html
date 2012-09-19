@@ -20,9 +20,12 @@
 # Agenda
 
 1. Ajax
-1. Remote true
-2. Callbacks
-3. Coffee
+2. Remote: true
+3. JSON
+4. Kontrolleren og respond_to
+5. Rails callback-events
+6. Respond_with
+7. Jbuilder
 
 ---
 
@@ -56,7 +59,7 @@
   - Laga en ajax-request som forrige slide, sende dataene til serveren og krysse fingrene for at alt går bra
 - Rails liker magi, og har gjort det "enklere" for oss å gjøre standardoperasjoner med ajax
 - Vi kan legge til `remote: true` til ruby-funksjoner som sender en request til serveren
-- Nå skjer alt automagisk!
+- Vi kan inspisere kildekoden og finne frem til jquery_ujs.js, det er her magien ligger
 
 ---
 # Remote: true
@@ -68,12 +71,12 @@
 
 ####Eksempel: 
 
-    simple_form_for User.new, remote: true do |f|
-      f.input :first_name
-      f.input :last_name
+    simple_form_for Article.new, remote: true do |f|
+      f.input :title
+      f.input :body
     end
 
-    link_to "First user", User.first, remote: true
+    link_to "First article", Article.first, remote: true
 ---
 
 # Oppgave
@@ -97,7 +100,7 @@
           #render index.html.erb
         end
       end
->
+      >
 - Når vi sender requests til serveren ønsker vi ikke alltid å få tilbake html
 - Derfor må vi se litt på JSON!
 
@@ -123,7 +126,6 @@
 ---
 
 # JSON
-
 
 - Et tall (integer eller floating point)
 - En streng (i doble fnutter)
@@ -161,7 +163,6 @@
 - Vi ønsker nå at action skal respondere til json når vi spør om det
 - `respond_to` og `respond_with` kan hjelpe oss
 
-
 ## Respond_to
 
     def index
@@ -178,6 +179,7 @@
 - Når vi har lært hvordan vi sender en request til serveren ved hjelp av remote:true, og hvordan serveren svarer på requesten
 - Vi ønsker ofte å gjøre noe i klienten (nettleseren) når vi får et svar tilbake fra serveren
 - Eksempel: Vise frem dataene i nettleseren, fjerne elementer eller gjøre noen animasjoner
+- Når vi bruker remote:true kaster rails noen eventer vi kan lytte på, og gjøre forskjellige operasjoner
 
 ---
 
@@ -192,7 +194,7 @@
 
 # Eksempel på bruk
 
-- Vi bruker jQuery in `on` funksjon til å "lytte" på events
+- Vi bruker jQuery sin `on` funksjon til å "lytte" på events
 
 #### "ajax:success"
 
@@ -219,9 +221,9 @@
 
 # Respond_with og respond_to
 
-- Definere hva en kontroller skal respondere på i toppen av kontrolleren
+- Definere hva en kontroller skal respondere på
 - Kutter ut "unødvendig" kode
-- Men infører enda mer magi!
+- Men infører enda mer magi! (Under panseret kjøres to_format på objektene)
 
       ArticleController < ApplicationController
         respond_to :html, :json
@@ -255,7 +257,7 @@
     end
 
     #### med respond_with kan vi skrive:
-
+    respond_with :html, :json
     def create
       @article = Article.new(params[:article])
       flash[:notice] = "Article saved!" if @article.save
@@ -265,18 +267,25 @@
 ---
 
 # Oppgave
+>
 
 - I løsningen finnes det en artikkel-modell, kontroller og view
 - I index viewet skal man kunne lage artikler ved hjelp av et form
-- Formet skal kunne sendes inn med remote: true
+- Skjemat skal kunne sendes inn med remote: true
+- Det skal være validering av dataene før skjemaet sender inn:
+  - Tittelen må være satt, men ikke lengre enn 20 tegn
+  - Bodyen må være satt
+- I kontrolleren skal dere bruke `respond_to` og `respond_with`. (Obs: :json må komme før :html i respond_to)
+- Når svaret kommer tilbake, skal dere legge den nye artiklen til i listen over artikler
 
+---
 
 #Jbuilder
 - Av og til trenger vi komplekse json-strukturer å jobbe med
 - En artikkel kan ha mange kommentarer og likes
 - Vi ønsker å bruke hjelpemetoder eller routes-hjelpere til å returnere noe
 - Jbuilder er et alternativ for å bygge opp json-strukturer
-- LINK HER
+- https://github.com/rails/jbuilder
 
 
     </textarea>

@@ -97,7 +97,7 @@
           #render index.html.erb
         end
       end
-//>
+>
 - Når vi sender requests til serveren ønsker vi ikke alltid å få tilbake html
 - Derfor må vi se litt på JSON!
 
@@ -107,13 +107,16 @@
 
 ## JavaScript Object Notation
 - En måte å representere javascript-objecter på
-- Enkel måte å sende data over nettet på
+- Enkel måte å sende data over nettet
+- Vi kan gå fra streng til javascript-objekt og tilbake til streng
 - Vi så den ble brukt i ajax-eksemplet:
 
-      {
+      var person =
         first_name: "Iver",
         last_name: "Skjervum
-      }
+
+      str = JSON.stringify(person)
+      obj = eval(str)
 
 - Ligner veldig på ruby sin hash-syntax (Eller ruby 1.9 ligner på javascript sin...)
 
@@ -139,6 +142,17 @@
     ]
 
 ---
+# Og Coffeescript
+
+#### En liste med objekter:
+    [
+      first_name: "Iver"
+      last_name: "Skjervum"
+    ,
+      first_name: "Håkon"
+      last_name: "Erichsen"
+    ]
+
 
 # Respons fra serveren med json
 

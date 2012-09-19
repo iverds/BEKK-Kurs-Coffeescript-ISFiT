@@ -18,9 +18,9 @@
 
 .front-page
 
-# CoffeeScript!
+# CoffeeScript & Ruby on Rails
 
-## Del 1: Introduksjon
+## Del 1: Introduksjon til Coffeescript
 
 Kurs for ISFiT, september 2012
 
@@ -43,7 +43,7 @@ Brukes gjerne hvis man...
 
 ---
 
-# Hvordan ser CS ut?
+# Hvordan ser CoffeeScript ut?
 
 En liten smakebit...
 
@@ -55,7 +55,7 @@ Javascript:
 
     addTwoNumbers(1, 2);
 
-CS:
+CoffeeScript:
 
     addTwoNumbers = (a, b) ->
         a + b
@@ -80,7 +80,6 @@ Variabler
     a = 6
     tekst = "hei"
     liste = [1, 2, 3, 4]
-    objekt = {navn: "Dag-Inge", organisasjon: "ISFiT", klasse: "5."}
 
 If-setninger
 
@@ -111,7 +110,7 @@ If-kortform
 Vi har også postfix-notasjon, som i Ruby:
 
     .coffee
-    alert "Great! :)" if person.organisasjon is "ISFiT"
+    alert "Great! :)" if organisasjon is "ISFiT"
 
 
 ---
@@ -315,6 +314,38 @@ Også her kan vi gjøre en sjekk:
 
 ---
 
+# Oppgave
+
+1. Lag en funksjon `map` som tar inn en liste og en funksjon.
+2. Input-funksjonen skal kalles for hvert element, og resultatet skal legges i en ny liste
+
+Eksempel på bruk:
+
+    liste = [1, 2, 3, 4]
+    funk = (x) -> x * x
+    console.log map(liste, funk) # Skal gi [1, 4, 9, 16]
+
+---
+
+# Fasit
+
+    map = (liste, funksjon) ->
+        resultat = []
+
+        for item in liste
+            resultat.push funksjon(item)
+
+        return resultat
+
+
+Eller CoffeeScript-måten:
+
+    map = (liste, funksjon) ->
+        for item in liste
+            funksjon(item)
+
+---
+
 # Sjekk at ting er tilstede eller satt
 
 For å sjekke at et element er tilstede, kan man bruke `in`:
@@ -354,39 +385,183 @@ gjennomkjøring.
 
 ---
 
-# Hvordan starter vi med CS på en nettside?
+# Lexical scoping
 
-Legg dette inn i mellom `<head>` og `</head>` HTML-filen din:
+.gray[Psst, det er egentlig ganske simpelt og det er helt likt Ruby.]
 
-    <script type="text/coffeescript">
-    # Her kan du skrive coffeescript
-    </script>
-    <script src="http://coffeescript.org/extras/coffee-script.js">
+    .coffee
+    outer = 1
+    changeNumbers = ->
+      outer = 10
 
-Voila, du skriver CS!
+    changeNumbers()
+    alert outer
+
+Og hva skjer her?
+
+    .coffee
+    changeNumbers = ->
+      outer = 10
+
+    outer = 1
+    changeNumbers()
+    alert outer
 
 ---
 
-# Hvordan starter vi med CS?
+# Lexical scoping
 
-Metoden på forrige slide tar litt tid å laste per side, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
+Grunnen til dette er at `outer` lever kun i funksjonen i det siste tilfellet. Det
+kan vi se om vi gjør det følgende isteden:
 
-1. Lag en fil med CS i som du kaller f.eks fil.coffee
-1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
-1. Installer CS-kompilatoren med `npm install -g coffee-script`
-1. Skriv `coffee -c fil.coffee` for å konvertere `fil.coffee` til JS
-1. Legg inn `fil.js` som vanlig JS i HTML-filen din.
+    .coffee
+    changeNumbers = ->
+      outer = 10
 
-Huskeregel:
+    changeNumbers()
+    alert outer
 
-* I produksjon: Bruk alltid `coffee` kommandoen!
-* Ellers: Bruk det som er mest praktisk for deg.
-* [Stasis](http://stasis.me/) er en veldig grei måte å kompilere CS, SASS og mye annet. 
+En variabel lever i et scope, som kan defineres på tre måter:
+
+1. Enhver funksjon lager et scope.
+2. En variabel lever i det ytterste scopet der den har blitt satt.
+3. Utenfor sitt scope er variabelen usynlig.
+
+
 ---
 
+# this
 
-Cheat:
+I Ruby bruker man `self` for å vise til objektet. I CoffeeScript vil dere se
+`this` og `@` mange plasser, men ikke bland de med `self` i Ruby.
+
+I CoffeeScript bruker man `this`, *ikke* for å vise til objektet, men for å
+vise til *"this context"*.
+
+La oss ta et eksempel.
+
+---
+
+# this
+
+    .coffee
+    settNavn = (navn) -> 
+        @navn = navn
+    settNavn("Håkon")
+    alert this.navn
+
+    # Kobler funksjonen til et person-objekt
+    person = 
+        settNavn: settNavn
     
+    person.settNavn("Håkon")
+    alert person.navn
+
+Her ser vi først navn satt på det *globale objektet*, og så satt på `person`.
+
+Dette er *veldig* praktisk når vi har førsteklasses funksjoner.
+
+---
+
+# Oppgave
+
+Utvid person-objektet fra forrige slide, og lag en metode `greet`, som knyttes til personen og returnerer "Hei, navn!" der navn er navnet på personen. 
+
+---
+
+# Fasit
+
+    person = {}
+    person.settNavn = settNavn
+    person.settNavn("Håkon")
+    person.greet = -> "Hei, #{@navn}!"
+
+    alert person.greet()
+
+---
+
+# Det var en liten intro!
+
+CoffeeScript har mange flere features, og ikke minst quirks!
+
+... men for å lære må man rett og slett bare skrive og knote litt, så derfor....
+
+---
+
+
+# JQuery manipulerer DOM-en
+
+    .coffee
+    $("#article p.big").html("test")
+
+Input er (nesten) alltid en eller annen selektor (som egentlig bare er CoffeeScriptS + litt ekstra).
+
+Når du har fått et JQuery-objekt kan du gjøre hva-som-helst — for eksempel
+traversere, legge til, fjerne, flytte på, iterere, prepende, appende, scrolle,
+osvosvosv.
+
+---
+
+.nice.middle
+
+".red[p]" matcher *paragraf*-elementer
+
+".green[#]big" matcher på id-en *big*
+
+".blue[.]test" matcher på klassen *test*
+
+---
+
+# Et eksempel fra koden til denne presentasjonen
+
+    .coffee
+    $("code.coffee:contains('alert')")
+
+Dette matcher da HTML-en som ser slik ut:
+
+    .html
+    <code class="coffee">
+      kodekodekode
+      alert
+      kodekodekode
+    </code>
+
+---
+
+# .on kobler en funksjon til en event
+
+Nettlesere har et sett med innebygde eventer, f.eks.:
+
+* `click`
+* `submit`
+* `focus`
+* `change`
+* `mouseOver`
+
+Vi kan dermed kalle en funksjon for eksempel når en bruker klikker på en link.
+
+---
+
+# Eksempel på on med JQuery
+
+    .coffee
+    $('.shopping_cart').on 'click', (event) =>
+      @customer.purchase @cart
+
+Vi har dermed bundet en funksjon til en klikk på et element. Her ser vi verdien av eventer og verdien av anonyme funksjoner.
+
+Her er et eksempel der verdien av `this` ikke er bundet med `=>`:
+
+    .coffee
+    $('#foo').on 'mouseenter mouseleave', (event) ->
+      $(this).toggleClass('entered')
+
+Her ser vi verdien av at `this` avhenger av konteksten.
+
+---
+
+# Da må vi prøve litt praktisk!
+
     <!DOCTYPE html>
     <html>
     <head>
@@ -398,8 +573,48 @@ Cheat:
     </head>
 
     <body>
+        <div id="person">
+            <p class="name">Dag-Inge Aas</p>
+            <ul class="barn">
+                <li>Reidun</li>
+                <li>Rolf</li>
+                <li>Ragnar</li>
+                <li>Ruth</li>
+            </ul>
+        </div>
+
     </body>
     </html>
+
+---
+
+# Oppgave
+
+Alt dette skal gjøres i jQuery
+
+1. Skriv ut alle barna til Dag-Inge i konsollen
+2. Gjør teksten på Rolf rød
+3. Lag en knapp og et tekstfelt for å legge til nye barn.
+
+---
+
+# Hvordan starter vi med CoffeeScript på en nettside?
+
+Metoden på forrige slide tar litt tid å laste per side, som resulterer i tregere sider. I produksjon bør man derfor aldri bruke den metoden, man bør heller kompilere til JS på forhånd. Da må man:
+
+1. Lag en fil med CoffeeScript i som du kaller f.eks fil.coffee
+1. Last ned Node herfra: [http://nodejs.org/#download](http://nodejs.org/#download)
+1. Installer CoffeeScript-kompilatoren med `npm install -g coffee-script`
+1. Skriv `coffee -c fil.coffee` for å konvertere `fil.coffee` til JS
+1. Legg inn `fil.js` som vanlig JS i HTML-filen din.
+
+Huskeregel:
+
+* I produksjon: Bruk alltid `coffee` kommandoen!
+* Ellers: Bruk det som er mest praktisk for deg.
+* [Stasis](http://stasis.me/) er en veldig grei måte å kompilere CoffeeScript, SASS og mye annet. 
+    
+    
 
         </textarea>
 

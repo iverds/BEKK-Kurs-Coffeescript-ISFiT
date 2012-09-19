@@ -153,18 +153,54 @@
       last_name: "Erichsen"
     ]
 
+---
 
 # Respons fra serveren med json
+
+- Vi så at en action i rails vanligvis responderer med html
+- Vi ønsker nå at action skal respondere til json når vi spør om det
+- `respond_to` og `respond_with` kan hjelpe oss
+
+
+## Respond_to
+
+    def index
+      respond_to do |format|      
+        format.json {render json: {first_name: "Iver", last_name: "Skjervum"}}
+        format.html
+      end
+    end
 
 ---
 
 # Callbacks
 
-1. `ajax:beforeSend` – skjer før AJAX-kallet har blit sendt
-2. `ajax:success` – skjer etter AJAX-kallet har blitt sendt hvis responsen er en suksess
-3. `ajax:complete` – skjer etter AJAX-kallet har blitt sendt uansett respons
-4. `ajax:error` – skjer etter AJAX-kallet har blitt sendt hvis responsen ikke er en suksess 
+- Når vi har lært hvordan vi sender en request til serveren ved hjelp av remote:true, og hvordan serveren svarer på requesten
+- Vi ønsker ofte å gjøre noe i klienten (nettleseren) når vi får et svar tilbake fra serveren
+- Eksempel: Vise frem dataene i nettleseren, fjerne elementer eller gjøre noen animasjoner
 
+---
+
+# De forskjellige callbacks som vi har:
+
+- `ajax:beforeSend` – skjer før AJAX-kallet har blit sendt
+- `ajax:success` – skjer etter AJAX-kallet har blitt sendt hvis responsen er en suksess
+- `ajax:complete` – skjer etter AJAX-kallet har blitt sendt uansett respons
+- `ajax:error` – skjer etter AJAX-kallet har blitt sendt hvis responsen ikke er en suksess
+
+---
+
+# Eksempel på bruk
+
+- Vi bruker jQuery in `on` funksjon til å "lytte" på events
+
+      $("#some_id").on "ajax:success", (event, data, status, xhr)->
+        #Do something on the success with the data here
+        
+      $("#some_id").on "ajax:complete", ()->
+        alert "It completed at least"
+
+        
 ---
 
 # Oppgave
@@ -175,6 +211,31 @@
 - Ekstra:
 - Hent `ajax:beforeSend` - callbacket og legg til et tilfeldig parameter "extra-funny" som gjør noe artig med dataene som returneres i kontrolleren
 
+---
+
+# Respond_with og respond_to
+
+- Definere hva en kontroller skal respondere på i toppen av kontrolleren
+- Kutter ut "unødvendig" kode
+- Men infører enda mer magi!
+
+      ArticleController < ApplicationController
+        respond_to :html, :json
+
+        def index
+          @users = User.all
+          respond_with(@users)
+        end
+
+        def show
+          @users = User.find(params[:id])
+          respond_with(@user)
+        end
+      end
+- Gjør om objektet user "magisk" til den typen det ønskes respond til
+- Artikkel for mer informasjon: http://blog.plataformatec.com.br/2009/08/embracing-rest-with-mind-body-and-soul/
+
+---
 
 
     </textarea>
